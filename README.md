@@ -1,8 +1,11 @@
+
 # CarRacing: Motorcycle-Inspired Rule-Based Agents
 
 A university portfolio project for a **Rule-Based Systems** course. Seven agents (1 baseline + 6 expert) compete in the Gymnasium `CarRacing-v3` environment using only hand-crafted rules, no machine learning -> autonomous systems.
 
 Every agent's decision logic is motivated by **real-world motorcycle riding dynamics**: braking before curves, managing traction, following the racing line, and adapting aggression on the fly.
+
+<video src="results/videos/comparison.mp4" controls width="100%"></video>
 
 ## Agents
 
@@ -125,38 +128,45 @@ All agents had this backwards. **Fixing this single bug improved scores from -60
 ## Project Structure
 
 ```
-carracing-rule-based/
+CarRacing_AutonomousSystems/
 ├── README.md
 ├── requirements.txt
-├── config.py                  # Shared constants and hyperparameters
-├── main.py                    # Entry point with recording and leaderboard
-├── compare_video.py           # Side-by-side comparison video generator
-├── environment.py             # Observation preprocessing (pixels -> features)
-├── agents/
+├── config.py                      # Shared constants and hyperparameters
+├── main.py                        # Entry point: evaluate agents, generate plots
+├── environment.py                 # Observation preprocessing (pixels → features)
+│
+├── race_game.py                   # Entry point wrapper → game/race.py
+├── compare_video.py               # Entry point wrapper → evaluation/compare_video.py
+├── generate_ghosts_batch.py       # Entry point wrapper → game/generate_ghosts.py
+│
+├── agents/                        # Rule-based agent implementations
+│   ├── __init__.py                # Agent registry (ALL_AGENTS)
+│   ├── base_agent.py              # Abstract base class
+│   ├── baseline_random.py         # Baseline: random actions
+│   ├── agent_cautious.py          # Cautious (My Sister)
+│   ├── agent_apex.py              # Max Verstappen
+│   ├── agent_traction.py          # Traction Focused
+│   ├── agent_superbike.py         # MotoGP
+│   ├── agent_rain.py              # Rain Rider
+│   └── agent_line_hunter.py       # Line Hunter
+│
+├── game/                          # Championship race game (pygame)
 │   ├── __init__.py
-│   ├── base_agent.py          # Abstract base class
-│   ├── baseline_random.py     # Baseline: random actions
-│   ├── agent_cautious.py      # Cautious (My Sister)
-│   ├── agent_apex.py          # Max Verstappen
-│   ├── agent_traction.py      # Traction Focused
-│   ├── agent_superbike.py     # MotoGP
-│   ├── agent_rain.py          # Rain Rider
-│   └── agent_line_hunter.py   # Line Hunter
-├── evaluation/
+│   ├── race.py                    # Race loop, HUD, screens, ghost rendering
+│   └── generate_ghosts.py         # Batch ghost data generation (subprocess)
+│
+├── evaluation/                    # Metrics, plots, and video comparison
 │   ├── __init__.py
-│   ├── metrics.py             # Per-episode metric tracking
-│   └── visualize.py           # matplotlib/seaborn comparison plots
-└── results/                   # Auto-generated plots, CSV, and videos
+│   ├── metrics.py                 # Per-episode metric tracking
+│   ├── visualize.py               # matplotlib/seaborn comparison plots
+│   └── compare_video.py           # Side-by-side agent comparison video
+│
+└── results/                       # Auto-generated outputs
     ├── results.csv
-    ├── mean_reward.png
-    ├── reward_boxplot.png
-    ├── completion.png
-    ├── episode_rewards.png
-    ├── comparison_table.png
-    ├── radar_chart.png
+    ├── ghosts/                    # Ghost replay data (JSON per agent per seed)
     └── videos/
-        ├── comparison.mp4     # All agents side-by-side
-        └── best_*.mp4         # Individual best-episode recordings
+        ├── comparison.mp4         # All agents side-by-side
+        └── best_*.mp4             # Individual best-episode recordings
 ```
 
 ## Metrics
