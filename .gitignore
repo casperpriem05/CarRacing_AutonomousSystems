@@ -1,1 +1,13 @@
 *__pycache__*
+*.pyc
+*.pyo
+
+# Results (regenerated)
+results/videos/best_*.mp4
+results/*.png
+
+# Temp files
+*.egg-info/
+.eggs/
+dist/
+build/
