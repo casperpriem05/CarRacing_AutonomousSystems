@@ -5,7 +5,7 @@ A university portfolio project for a **Rule-Based Systems** course. Seven agents
 
 Every agent's decision logic is motivated by **real-world motorcycle riding dynamics**: braking before curves, managing traction, following the racing line, and adapting aggression on the fly.
 
-<video src="results/videos/comparison.mp4" controls width="100%"></video>
+[![Agent Comparison Video](https://img.youtube.com/vi/Mksyq7B8tyU/maxresdefault.jpg)](https://youtu.be/Mksyq7B8tyU)
 
 ## Agents
 
