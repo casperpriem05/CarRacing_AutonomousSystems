@@ -96,21 +96,6 @@ The root cause was discovered through empirical testing. In CarRacing-v3, the ca
 
 All agents had this backwards. **Fixing this single bug improved scores from -60 average to +470 average**, a ~530-point improvement. Off-track rates dropped from 70-90% to 2-15%.
 
-### What I got right
-
-1. **Project structure**: clean separation of concerns (agents, environment, evaluation, config)
-2. **Observation preprocessing**: grass-based track detection and track-center offset calculation
-3. **Warmup handling**: correctly identified and handled the 50-frame zoom animation
-4. **Reproducibility**: deterministic seeding per episode for fair comparison
-5. **Visualisation suite**: 6 comparison plots generated automatically
-
-### What was wrong
-
-1. **Steering direction**: never empirically tested whether `LEFT if offset < 0` actually corrected a negative offset
-2. **Over-engineering before validating basics**: built complex voting systems and state machines before verifying that basic steering worked
-3. **Excessive cooldowns**: original cooldowns (4-12 steps) were far too long; the car needs to correct every 1-2 frames
-4. **Conservative thresholds**: steering thresholds of 0.08-0.14 were too high for the small offsets on straight roads
-
 ### Improvements made after (help with AI)
 
 1. **Fixed steering direction** in all agents
@@ -124,6 +109,22 @@ All agents had this backwards. **Fixing this single bug improved scores from -60
 4. **Increased episode length** from 1000 to 2000 steps so agents can complete full laps
 5. **Added comparison video** (`compare_video.py`) that shows all agents side-by-side
 6. **Added video recording** (`--record`) with HUD overlay showing agent name, reward, speed, action, and off-track warnings
+
+
+### Run the video game
+# 1. Clone the repo
+  git clone https://github.com/casperpriem05/CarRacing_AutonomousSystems.git
+  cd CarRacing_AutonomousSystems
+
+  # 2. Install dependencies (needs SWIG for Box2D)
+  pip install -r requirements.txt
+
+  # 3. Generate ghost data (the opponents)
+  python generate_ghosts_batch.py
+
+  # 4. Play the game
+  python race_game.py
+
 
 ## Project Structure
 
