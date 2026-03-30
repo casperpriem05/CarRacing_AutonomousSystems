@@ -25,8 +25,6 @@ class EpisodeMetrics:
     steps: int = 0
     off_track_steps: int = 0
     speed_samples: List[float] = field(default_factory=list)
-    tiles_visited: int = 0
-
     def step(self, reward: float, features: Dict[str, Any]) -> None:
         """Update metrics with one environment step."""
         self.total_reward += reward
@@ -34,10 +32,6 @@ class EpisodeMetrics:
         if not features.get("on_track", True):
             self.off_track_steps += 1
         self.speed_samples.append(features.get("speed", 0.0))
-
-    def record_tiles(self, info: dict) -> None:
-        """Extract tiles-visited from the environment info dict (if available)."""
-        pass
 
     def summarise(self) -> Dict[str, float]:
         """Return a flat dict of final metric values."""

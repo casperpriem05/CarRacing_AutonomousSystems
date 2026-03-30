@@ -124,17 +124,11 @@ class LineHunter(BaseAgent):
                 steer = self._steer_toward(trajectory_error)
 
                 if not self._would_oscillate(steer):
-                    # Proportional cooldown: bigger error = shorter cooldown
-                    if error_mag > 0.15:
-                        cooldown = 1
-                    elif error_mag > 0.08:
-                        cooldown = 1
-                    else:
-                        cooldown = 1
+                    cooldown = 1
 
                     # Prevent excessive same-direction steering
                     if self._consecutive_steer > 8:
-                        cooldown = max(cooldown, 2)
+                        cooldown = 2
 
                     self._steer_cooldown = cooldown
                     return self._pick(steer)
@@ -148,6 +142,3 @@ class LineHunter(BaseAgent):
             return self._pick(DO_NOTHING)
 
         return self._pick(GAS)
-
-    def observe_reward(self, reward: float) -> None:
-        pass
